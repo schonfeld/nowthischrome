@@ -1,6 +1,6 @@
 {
   "name": "NowThisChrome",
-  "version": "1.0",
+  "version": "1.1",
   "manifest_version": 2,
   "description": "Never miss another nowthisnews update again",
   "icons": {
@@ -19,7 +19,7 @@
       "19": "images/icon19.png",
       "38": "images/icon38.png"
     },
-    "default_title": "Now This Chrome",
+    "default_title": "NowThisChrome",
     "default_popup": "nowthischrome.html"
   },
   "permissions": [

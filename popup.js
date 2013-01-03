@@ -1,33 +1,44 @@
 $(function() {
   var bg = chrome.extension.getBackgroundPage()
-      , posts = bg.readPosts()
-      , ul = $('#new-posts ul')
-      , lastUpdate = $('#last-update')
+      , posts = []
+      , els = {
+        ul: $('#new-posts ul')
+        , lastUpdate: $('#last-update')
+        , newPosts: $('#new-posts')
+        , checkBack: $('#check-back')
+        , document: $(document)
+        , markAll: $('#mark-all')
+      }
       ;
 
+  var loadPosts = function() {
+    posts = bg.readPosts();
+  }
+  
   var shouldToggleView = function() {
-    if(!ul.children().length) {
-      $('#new-posts').hide();
-      $('#check-back').show();
+    if(!els.ul.children().length) {
+      els.newPosts.hide();
+      els.checkBack.show();
     }
   }
 
   var render = function() {
-    lastUpdate.html('(last updated: ' + localStorage.lastUpdateFormatted + ')');
+    els.lastUpdate.html('(last updated: ' + localStorage.lastUpdateFormatted + ')');
 
+    loadPosts();
     if(posts.length) {
-      ul.empty();
+      els.ul.empty();
 
       posts.forEach(function(post) {
         var li = "<li><a href='" + post.link + "' data-id='" + post.id + "'><img src='" + post.thumb + "' /><span><b>" + post.title + "</b><em>" + post.body + "</em><i>Uploaded " + post.created + "</i></span></a></li>";
-        ul.prepend(li);
+        els.ul.prepend(li);
       });
     } else {
       shouldToggleView();
     }
   }
 
-  $(document).on('click', '#new-posts ul li a', function(e) {
+  els.document.on('click', '#new-posts ul li a', function(e) {
     e.preventDefault();
 
     var el = $(this)
@@ -48,7 +59,7 @@ $(function() {
     el
       .parent()
       .remove();
-      
+
     shouldToggleView();
 
     // Open link in new tab
@@ -56,15 +67,20 @@ $(function() {
 
     return false;
   });
-  
-  $('#mark-all').click(function() {
-    bg.savePosts([]);
 
-    ul.empty();
+  els.markAll.click(function(e) {
+    e.preventDefault();
+
+    bg.savePosts([]);
+    els.ul.empty();
     shouldToggleView();
+    
+    return false;
   });
 
-  lastUpdate.click(function() {
+  els.lastUpdate.click(function() {
+    e.preventDefault();
+
     $(this).html('(updating...)');
 
     var now = localStorage.lastUpdate;
@@ -76,6 +92,8 @@ $(function() {
         render();
       }
     }, 500);
+
+    return false;
   });
   
   render();

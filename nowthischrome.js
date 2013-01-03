@@ -2,55 +2,66 @@
  * BEGIN Helper functions
  ****************************/
 var formatPostDate = function(timestamp) {
-      var date = new Date(timestamp);
-    
-      return date.getHours() + ':' + ('0' + date.getMinutes()).slice(-2) + ' ' + (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear()
-    }
-    , readPosts = function() {
-      return JSON.parse(localStorage.posts);
-    }
-    , updateBadge = function() {
-      if(count = readPosts().length) {
-        chrome.browserAction.setBadgeText({text: '' + count});
-      } else {
-        chrome.browserAction.setBadgeText({text: ''});
-      }
-    }
-    , saveLastUpdate = function() {
-      var now = new Date().getTime();
-      localStorage.lastUpdate = now;
-      localStorage.lastUpdateFormatted = formatPostDate(now);
-    }
-    , savePosts = function(posts, shouldSort) {
-      if(typeof shouldSort == 'undefined') { shouldSort = true; }
-      
-      localStorage.posts = JSON.stringify(posts);
-    
-      shouldSort && sortPosts();
-      updateBadge();
-    
-      return true;
-    }
-    , sortPosts = function() {
-      var posts = readPosts();
-    
-      posts.sort(function(a, b) {
-        if(a.created_ts < b.created_ts) return -1;
-        if(a.created_ts > b.created_ts) return 1;
-    
-        return 0;
-      });
-    
-      savePosts(posts, false);
-    
-      return true;
-    }
-    , reset = function() {
-      localStorage.clear();
+  var date = new Date(timestamp);
 
-      return true;
-    }
-    ;
+  return date.getHours() + ':' + ('0' + date.getMinutes()).slice(-2) + ' ' + (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear()
+}
+
+var readPosts = function() {
+  return JSON.parse(localStorage.posts);
+}
+
+var updateBadge = function() {
+  if(count = readPosts().length) {
+    chrome.browserAction.setBadgeText({text: '' + count});
+  } else {
+    chrome.browserAction.setBadgeText({text: ''});
+  }
+  
+  return true;
+}
+
+var saveLastUpdate = function() {
+  var now = new Date().getTime();
+
+  localStorage.lastUpdate = now;
+  localStorage.lastUpdateFormatted = formatPostDate(now);
+  
+  return true;
+}
+
+var savePosts = function(posts, shouldSort) {
+  if(typeof shouldSort == 'undefined') { shouldSort = true; }
+  
+  localStorage.posts = JSON.stringify(posts);
+
+  shouldSort && sortPosts();
+  updateBadge();
+
+  return true;
+}
+
+var sortPosts = function() {
+  var posts = readPosts();
+
+  posts.sort(function(a, b) {
+    if(a.created_ts < b.created_ts) return -1;
+    if(a.created_ts > b.created_ts) return 1;
+
+    return 0;
+  });
+
+  savePosts(posts, false);
+
+  return true;
+}
+
+var reset = function() {
+  localStorage.clear();
+  savePosts([]);
+
+  return true;
+}
 /****************************
  * END Helper functions
  ****************************/
@@ -76,6 +87,8 @@ var checkNewPosts = function() {
   }, 'json');
 
   saveLastUpdate();
+  
+  return true;
 }
 
 var addNewPost = function(id) {
@@ -96,6 +109,8 @@ var addNewPost = function(id) {
     posts.push(post);
     savePosts(posts);
   }, 'json');
+  
+  return true;
 }
 /****************************
  * END Core functions
