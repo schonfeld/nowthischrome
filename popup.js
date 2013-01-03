@@ -14,7 +14,7 @@ $(function() {
   var loadPosts = function() {
     posts = bg.readPosts();
   }
-  
+
   var shouldToggleView = function() {
     if(!els.ul.children().length) {
       els.newPosts.hide();
