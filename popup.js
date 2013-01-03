@@ -30,7 +30,7 @@ $(function() {
       els.ul.empty();
 
       posts.forEach(function(post) {
-        var li = "<li><a href='" + post.link + "' data-id='" + post.id + "'><img src='" + post.thumb + "' /><span><b>" + post.title + "</b><em>" + post.body + "</em><i>Uploaded " + post.created + "</i></span></a></li>";
+        var li = "<li><a href='" + post.link + "' data-post-id='" + post.id + "'><img src='" + post.thumb + "' /><span><b>" + post.title + "</b><em>" + post.body + "</em><i>Uploaded " + post.created + "</i></span></a></li>";
         els.ul.prepend(li);
       });
     } else {
@@ -43,7 +43,7 @@ $(function() {
 
     var el = $(this)
         , href = el.attr('href')
-        , id = el.data('id');
+        , id = el.data('post-id');
         ;
 
     // Remove this post form the stack
@@ -81,7 +81,7 @@ $(function() {
   els.lastUpdate.click(function(e) {
     e.preventDefault();
 
-    $(this).html('(updating...)');
+    els.lastUpdate.html('(updating...)');
 
     var now = localStorage.lastUpdate;
     bg.checkNewPosts();
