@@ -78,7 +78,7 @@ $(function() {
     return false;
   });
 
-  els.lastUpdate.click(function() {
+  els.lastUpdate.click(function(e) {
     e.preventDefault();
 
     $(this).html('(updating...)');
@@ -96,5 +96,6 @@ $(function() {
     return false;
   });
   
+  // Init application...
   render();
 });
