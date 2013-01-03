@@ -1,0 +1,127 @@
+* { padding: 0; margin: 0; font-family: "Helvetica"; }
+a { text-decoration: none; }
+.clearfix() {
+  *zoom: 1;
+  &:before,
+  &:after {
+    display: table;
+    content: "";
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+html {
+  background: #fff;
+}
+
+body {
+  width: 450px;
+  background: #fff url(/images/bg.jpg) repeat 0 0;
+  border: 3px solid #fff;
+  border-radius: 10px;
+  
+  color: #fff;
+  font-size: 14px;
+  
+  position: relative;
+  padding: 40px 10px 3px;
+}
+
+#last-update {
+  left: 10px;
+}
+
+#mark-all {
+  right: 10px;
+}
+
+#mark-all, #last-update {
+  position: absolute;
+  top: 8px;
+  outline: none;
+
+  color: #ddd;
+  font-size: 11px;
+  font-style: italic;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+#new-posts {
+  display: block;
+  padding: 0 0 10px;
+
+  h3 {
+    padding: 0 0 10px;
+  }
+  
+  ul {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: #fff;
+
+    li {
+      display: block;
+      border-bottom: 1px solid #ddd;
+      background: #fff url(/images/arrow.png) no-repeat 97% 50%;
+      border-radius: 5px;
+      
+      &:last-child {
+        border-bottom: 0 !important;
+      }
+
+      &:hover {
+        background-color: #f0f0f0;
+      }
+
+      a {
+        .clearfix;
+        display: block;
+        padding: 10px 20px;
+
+        img {
+          float: left;
+          height: 50px;
+          margin-right: 10px;
+        }
+        
+        span {
+          float: left;
+          width: 295px;
+
+          b, i, em {
+            display: block;
+            padding: 3px 0 0;
+            font-style: normal;
+            font-weight: normal;
+          }
+          
+          b {
+            color: #222;
+            font-size: 15px;
+            padding: 0;
+          }
+          
+          em {
+            color: #555;
+            font-size: 13px;
+          }
+
+          i {
+            color: #777;
+            font-size: 11px;
+          }
+        }
+      }
+    }
+  }
+}
+
+#check-back {
+  display: none;
+  padding: 0 0 10px;
+}
